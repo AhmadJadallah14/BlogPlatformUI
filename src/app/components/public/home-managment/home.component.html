@@ -1,0 +1,87 @@
+<div class="home-container">
+      <div class="hero-section">
+        <div class="container">
+          <h1 class="hero-title">Welcome to BlogPlatform</h1>
+          <p class="hero-subtitle">
+            Discover amazing stories and insights from our community of writers
+          </p>
+        </div>
+      </div>
+
+      <div class="container">
+        <section class="posts-section">
+          <h2 class="section-title">Latest Posts</h2>
+
+          <div class="loading" *ngIf="loading">
+            <div class="loading-spinner">
+              <div class="spinner"></div>
+              <p>Loading posts...</p>
+            </div>
+          </div>
+
+          <div class="posts-grid" *ngIf="!loading && posts.length > 0">
+            <article class="post-card card" *ngFor="let post of posts">
+              <div
+                class="post-image"
+                *ngIf="
+                  post.coverImageUrl && isValidImageUrl(post.coverImageUrl)
+                "
+              >
+                <img
+                  [src]="post.coverImageUrl"
+                  [alt]="post.title"
+                  (error)="onImageError($event)"
+                  loading="lazy"
+                />
+              </div>
+              <div class="post-content p-2">
+                <div
+                  class="post-tags"
+                  *ngIf="post.tags && post.tags.length > 0"
+                >
+                  <span class="tag" *ngFor="let tag of post.tags">{{
+                    tag
+                  }}</span>
+                </div>
+                <h3 class="post-title">
+                  <a [routerLink]="['/post', post.slug]">{{ post.title }}</a>
+                </h3>
+                <p class="post-excerpt">{{ getExcerpt(post.body) }}</p>
+                <div class="post-meta">
+                  <span class="post-date">{{
+                    formatDate(post.createdOn)
+                  }}</span>
+                </div>
+              </div>
+            </article>
+          </div>
+
+          <div class="text-center" *ngIf="!loading && posts.length === 0">
+            <div class="empty-state">
+              <h3>No posts available yet</h3>
+              <p>Check back later for new content!</p>
+            </div>
+          </div>
+
+          <div class="pagination" *ngIf="totalCount > pageSize">
+            <button
+              class="btn btn-secondary"
+              [disabled]="currentPage === 1"
+              (click)="previousPage()"
+            >
+              Previous
+            </button>
+            <span class="page-info"
+              >Page {{ currentPage }} of {{ totalPages }}</span
+            >
+            <button
+              class="btn btn-secondary"
+              [disabled]="currentPage === totalPages"
+              (click)="nextPage()"
+            >
+              Next
+            </button>
+          </div>
+        </section>
+      </div>
+    </div>

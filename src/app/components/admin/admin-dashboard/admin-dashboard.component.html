@@ -1,0 +1,80 @@
+<div class="admin-dashboard-container">
+  <div class="container">
+    <div class="dashboard-header">
+      <h1>Admin Dashboard</h1>
+      <p>Manage your blog platform and monitor activity</p>
+    </div>
+
+    <div class="stats-grid" *ngIf="stats">
+      <!-- Total Posts -->
+      <div class="stat-card card p-2">
+        <div class="stat-icon">
+          <i class="bi bi-file-earmark-text"></i>
+        </div>
+        <div class="stat-info">
+          <h3>{{ stats.totalPosts }}</h3>
+          <p>Total Posts</p>
+        </div>
+      </div>
+      
+      <!-- Published Posts -->
+      <div class="stat-card card p-2">
+        <div class="stat-icon">
+          <i class="bi bi-send-check"></i>
+        </div>
+        <div class="stat-info">
+          <h3>{{ stats.publishedPosts }}</h3>
+          <p>Published Posts</p>
+        </div>
+      </div>
+      
+      <!-- Total Users -->
+      <div class="stat-card card p-2">
+        <div class="stat-icon">
+          <i class="bi bi-people"></i>
+        </div>
+        <div class="stat-info">
+          <h3>{{ stats.totalUsers }}</h3>
+          <p>Total Users</p>
+        </div>
+      </div>
+
+      <!-- Active Users -->
+      <div class="stat-card card p-2">
+        <div class="stat-icon">
+          <i class="bi bi-check-circle"></i>
+        </div>
+        <div class="stat-info">
+          <h3>{{ stats.activeUsers }}</h3>
+          <p>Active Users</p>
+        </div>
+      </div>
+
+      <!-- Banned Users -->
+      <div class="stat-card card p-2">
+        <div class="stat-icon">
+          <i class="bi bi-slash-circle"></i>
+        </div>
+        <div class="stat-info">
+          <h3>{{ stats.bannedUsers }}</h3>
+          <p>Banned Users</p>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="admin-actions">
+      <div class="action-card card p-3">
+        <h3>User Management</h3>
+        <p>Manage users, roles, and permissions</p>
+        <a routerLink="/admin/users" class="btn btn-primary">Manage Users</a>
+      </div>
+      
+      <div class="action-card card p-3">
+        <h3>Post Management</h3>
+        <p>Moderate and manage all blog posts</p>
+        <a routerLink="/admin/posts" class="btn btn-secondary">Manage Posts</a>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,107 @@
+<div class="user-management-container">
+      <div class="container">
+        <div class="management-header">
+          <h1>User Management</h1>
+          <p>Manage user accounts, roles, and permissions</p>
+        </div>
+
+        <div class="loading" *ngIf="loading">
+          <p>Loading users...</p>
+        </div>
+
+        <div class="users-table" *ngIf="!loading && users.length > 0">
+          <div class="table-header">
+            <div class="col-email">Email</div>
+            <div class="col-role">Role</div>
+            <div class="col-status">Status</div>
+            <div class="col-date">Created</div>
+            <div class="col-actions">Actions</div>
+          </div>
+
+          <div class="table-row" *ngFor="let user of users">
+            <div class="col-email">
+              <div class="user-info">
+                <strong>{{ user.email }}</strong>
+                <small>ID: {{ user.id.substring(0, 8) }}...</small>
+              </div>
+            </div>
+            <div class="col-role">
+              <span
+                class="role-badge"
+                [class]="'role-' + user.role.toLowerCase()"
+              >
+                {{ user.role }}
+              </span>
+            </div>
+            <div class="col-status">
+              <span
+                class="status-badge"
+                [class.banned]="user.isBanned"
+                [class.active]="!user.isBanned"
+              >
+                {{ user.isBanned ? "Banned" : "Active" }}
+              </span>
+            </div>
+            <div class="col-date">
+              {{ formatDate(user.createdOn) }}
+            </div>
+            <div class="col-actions">
+              <div class="action-buttons">
+                <button
+                  class="btn-sm btn-warning"
+                  *ngIf="!user.isBanned"
+                  (click)="banUser(user.id)"
+                  [disabled]="actionLoading[user.id]"
+                >
+                  {{ actionLoading[user.id] ? "Banning..." : "Ban" }}
+                </button>
+                <button
+                  class="btn-sm btn-primary"
+                  *ngIf="user.role === 'Author'"
+                  (click)="promoteUser(user.id)"
+                  [disabled]="actionLoading[user.id]"
+                >
+                  {{
+                    actionLoading[user.id] ? "Promoting..." : "Promote to Admin"
+                  }}
+                </button>
+                <button
+                  class="btn-sm btn-danger"
+                  (click)="deleteUser(user.id)"
+                  [disabled]="actionLoading[user.id]"
+                >
+                  {{ actionLoading[user.id] ? "Deleting..." : "Delete" }}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="text-center" *ngIf="!loading && users.length === 0">
+          <div class="empty-state">
+            <h3>No users found</h3>
+            <p>No users to display at this time.</p>
+          </div>
+        </div>
+
+        <div class="pagination">
+          <button
+            class="btn btn-secondary"
+            [disabled]="currentPage === 1"
+            (click)="previousPage()"
+          >
+            Previous
+          </button>
+          <span class="page-info"
+            >Page {{ currentPage }} of {{ totalPages }}</span
+          >
+          <button
+            class="btn btn-secondary"
+            [disabled]="currentPage === totalPages"
+            (click)="nextPage()"
+          >
+            Next
+          </button>
+        </div>
+      </div>
+    </div>

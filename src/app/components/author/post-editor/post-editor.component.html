@@ -1,0 +1,139 @@
+<div class="editor-container">
+      <div class="container">
+        <div class="editor-header">
+          <h1>{{ isEditMode ? "Edit Post" : "Create New Post" }}</h1>
+          <button class="btn btn-secondary" (click)="goBack()">
+            ← Back to Posts
+          </button>
+        </div>
+
+        <form [formGroup]="postForm" (ngSubmit)="onSubmit()" class="post-form">
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Title</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="title"
+                placeholder="Enter post title"
+                [class.error]="
+                  postForm.get('title')?.invalid &&
+                  postForm.get('title')?.touched
+                "
+              />
+              <div
+                class="error"
+                *ngIf="
+                  postForm.get('title')?.invalid &&
+                  postForm.get('title')?.touched
+                "
+              >
+                Title is required
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Tags</label>
+            <input
+              type="text"
+              class="form-control"
+              formControlName="tagsInput"
+              placeholder="Enter tags separated by commas (e.g., javascript, web development)"
+            />
+            <small class="form-help">Separate multiple tags with commas</small>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Cover Image</label>
+            <input
+              type="file"
+              class="form-control"
+              accept="image/*"
+              (change)="onFileSelect($event)"
+              #fileInput
+            />
+            <small class="form-help"
+              >Upload a cover image for your post (JPG, PNG, GIF)</small
+            >
+            <div class="image-preview" *ngIf="imagePreview">
+              <img [src]="imagePreview" alt="Cover image preview" />
+              <button type="button" class="btn-remove" (click)="removeImage()">
+                ×
+              </button>
+            </div>
+          </div>
+
+          <div class="editor-layout">
+            <div class="editor-section">
+              <div class="form-group">
+                <label class="form-label">Content (Markdown)</label>
+                <textarea
+                  class="form-control content-textarea"
+                  formControlName="body"
+                  placeholder="Write your post content here using Markdown..."
+                  rows="20"
+                  [class.error]="
+                    postForm.get('body')?.invalid &&
+                    postForm.get('body')?.touched
+                  "
+                  (input)="onContentChange()"
+                ></textarea>
+                <div
+                  class="error"
+                  *ngIf="
+                    postForm.get('body')?.invalid &&
+                    postForm.get('body')?.touched
+                  "
+                >
+                  Content is required
+                </div>
+                <small class="form-help">
+                  Use Markdown syntax: **bold**, *italic*, # Heading,
+                  [link](url), ![image](url)
+                </small>
+              </div>
+            </div>
+
+            <div class="preview-section">
+              <label class="form-label">Preview</label>
+              <div class="markdown-preview">
+                <markdown
+                  [data]="
+                    postForm.get('body')?.value ||
+                    'Start typing to see preview...'
+                  "
+                ></markdown>
+              </div>
+            </div>
+          </div>
+
+          <div class="error mb-2" *ngIf="errorMessage">
+            {{ errorMessage }}
+          </div>
+
+          <div class="success mb-2" *ngIf="successMessage">
+            {{ successMessage }}
+          </div>
+
+          <div class="form-actions">
+            <button
+              type="submit"
+              class="btn btn-primary"
+              [disabled]="postForm.invalid || loading"
+            >
+              {{
+                loading
+                  ? "Saving..."
+                  : isEditMode
+                  ? "Update Post"
+                  : "Create Post"
+              }}
+            </button>
+            <button type="button" class="btn btn-secondary" (click)="goBack()">
+              Cancel
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>

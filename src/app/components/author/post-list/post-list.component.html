@@ -1,0 +1,106 @@
+<div class="post-list-container">
+      <div class="container">
+        <div class="list-header">
+          <h1>My Posts</h1>
+          <a routerLink="/author/create-post" class="btn btn-primary"
+            >Create New Post</a
+          >
+        </div>
+
+        <div class="loading" *ngIf="loading">
+          <p>Loading posts...</p>
+        </div>
+
+        <div class="posts-table" *ngIf="!loading && posts.length > 0">
+          <div class="table-header">
+            <div class="col-title">Title</div>
+            <div class="col-status">Status</div>
+            <div class="col-date">Created</div>
+            <div class="col-actions">Actions</div>
+          </div>
+
+          <div class="table-row" *ngFor="let post of posts">
+            <div class="col-title">
+              <div class="post-info">
+                <h3>{{ post.title }}</h3>
+                <div
+                  class="post-tags"
+                  *ngIf="post.tags && post.tags.length > 0"
+                >
+                  <span class="tag" *ngFor="let tag of post.tags">{{
+                    tag
+                  }}</span>
+                </div>
+              </div>
+            </div>
+            <div class="col-status">
+              <span
+                class="status"
+                [class.published]="post.isPublished"
+                [class.draft]="!post.isPublished"
+              >
+                {{ post.isPublished ? "Published" : "Draft" }}
+              </span>
+            </div>
+            <div class="col-date">
+              {{ formatDate(post.createdOn) }}
+            </div>
+            <div class="col-actions">
+              <div class="action-buttons">
+                <button
+                  class="btn-sm btn-secondary"
+                  [routerLink]="['/author/edit-post', post.id]"
+                >
+                  Edit
+                </button>
+                <button
+                  class="btn-sm btn-primary"
+                  *ngIf="!post.isPublished"
+                  (click)="publishPost(post.id)"
+                  [disabled]="actionLoading[post.id]"
+                >
+                  {{ actionLoading[post.id] ? "Publishing..." : "Publish" }}
+                </button>
+                <button
+                  class="btn-sm btn-danger"
+                  (click)="deletePost(post.id)"
+                  [disabled]="actionLoading[post.id]"
+                >
+                  {{ actionLoading[post.id] ? "Deleting..." : "Delete" }}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="text-center" *ngIf="!loading && posts.length === 0">
+          <div class="empty-state">
+            <h3>No posts yet</h3>
+            <p>Create your first blog post to get started!</p>
+            <a routerLink="/author/create-post" class="btn btn-primary"
+              >Create Post</a
+            >
+          </div>
+        </div>
+
+        <div class="pagination" *ngIf="totalCount > pageSize">
+          <button
+            class="btn btn-secondary"
+            [disabled]="currentPage === 1"
+            (click)="previousPage()"
+          >
+            Previous
+          </button>
+          <span class="page-info"
+            >Page {{ currentPage }} of {{ totalPages }}</span
+          >
+          <button
+            class="btn btn-secondary"
+            [disabled]="currentPage === totalPages"
+            (click)="nextPage()"
+          >
+            Next
+          </button>
+        </div>
+      </div>
+    </div>
