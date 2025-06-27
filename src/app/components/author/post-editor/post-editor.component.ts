@@ -50,11 +50,42 @@ export class PostEditorComponent implements OnInit {
   }
 
   loadPost() {
-    if (this.postId) {
-      // In a real app, you'd load the post data here
-      // For now, we'll just set edit mode
-      console.log("Loading post with ID:", this.postId);
-    }
+    if (!this.postId) return;
+
+    this.loading = true;
+    this.errorMessage = "";
+
+    this.postService.getPostById(this.postId).subscribe({
+      next: (response) => {
+        this.loading = false;
+
+        if (response.succeeded && response.data) {
+          const post = response.data;
+
+          this.postForm.patchValue({
+            title: post.title,
+            body: post.body,
+            tagsInput: post.tags?.join(", ") || "",
+          });
+
+          if (post.coverImageUrl) {
+            this.imagePreview = post.coverImageUrl;
+          }
+        } else {
+          this.errorMessage = response.message || "Failed to load post";
+          console.error("Post load error:", response.errors);
+        }
+      },
+      error: (error) => {
+        this.loading = false;
+        this.errorMessage = "Error loading post. Please try again.";
+        console.error("API error:", error);
+
+        if (error.status === 404) {
+          setTimeout(() => this.router.navigate(["/author/posts"]), 2000);
+        }
+      },
+    });
   }
 
   onFileSelect(event: any) {

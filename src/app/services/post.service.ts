@@ -37,6 +37,11 @@ export class PostService {
     );
   }
 
+  getPostById(postId: number): Observable<ApiResponse<Post>> {
+    return this.http.get<ApiResponse<Post>>(
+      `${this.API_URL}/posts/GetPostById/${postId}`
+    );
+  }
   updatePost(postData: UpdatePostRequest): Observable<ApiResponse<boolean>> {
     const formData = new FormData();
     formData.append("PostId", postData.postId.toString());
