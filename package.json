@@ -28,7 +28,7 @@
     "@angular/cli": "^20.0.0",
     "@angular/compiler-cli": "^20.0.0",
     "@types/dompurify": "^3.0.3",
-    "@types/marked": "^8.0.0",
+    "@types/marked": "^6.0.0",
     "typescript": "^5.8.2"
   }
 }

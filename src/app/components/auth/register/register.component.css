@@ -40,3 +40,46 @@
         opacity: 0.6;
         cursor: not-allowed;
       }
+      .password-input-container {
+  position: relative;
+}
+
+.password-input {
+  padding-right: 35px; 
+}
+
+.password-toggle {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #6c757d; 
+  z-index: 5;
+  background: white;
+  padding: 0 5px;
+}
+
+.password-toggle:hover {
+  color: #495057;
+}
+
+.password-input-container {
+  display: flex;
+  align-items: center;
+}
+
+.password-input {
+  flex-grow: 1;
+  border-right: none;
+}
+
+.password-toggle {
+  border: 1px solid #ced4da;
+  border-left: none;
+  height: calc(100% - 2px);
+  display: flex;
+  align-items: center;
+  background-color: #f8f9fa;
+  border-radius: 0 .25rem .25rem 0;
+}

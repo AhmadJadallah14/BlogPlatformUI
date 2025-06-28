@@ -9,6 +9,7 @@
               class="form-control" 
               formControlName="userName"
               [class.error]="registerForm.get('userName')?.invalid && registerForm.get('userName')?.touched"
+              placeholder="Enter your username"
             >
             <div class="error" *ngIf="registerForm.get('userName')?.invalid && registerForm.get('userName')?.touched">
               Username is required
@@ -22,24 +23,32 @@
               class="form-control" 
               formControlName="email"
               [class.error]="registerForm.get('email')?.invalid && registerForm.get('email')?.touched"
+            placeholder="Enter your email"
             >
             <div class="error" *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched">
               Valid email is required
             </div>
           </div>
           
-          <div class="form-group">
-            <label class="form-label">Password</label>
-            <input 
-              type="password" 
-              class="form-control" 
-              formControlName="password"
-              [class.error]="registerForm.get('password')?.invalid && registerForm.get('password')?.touched"
-            >
-            <div class="error" *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched">
-              Password must be at least 6 characters
-            </div>
-          </div>
+<div class="form-group">
+  <label class="form-label">Password</label>
+  <div class="password-input-container">
+    <input 
+      [type]="showPassword ? 'text' : 'password'" 
+      class="form-control password-input" 
+      formControlName="password"
+      [class.error]="registerForm.get('password')?.invalid && registerForm.get('password')?.touched"
+      placeholder="Enter your password"
+    >
+    <span class="password-toggle" (click)="toggleShowPassword()">
+      <i class="fa" [class.fa-eye]="!showPassword" [class.fa-eye-slash]="showPassword"></i>
+    </span>
+  </div>
+  
+  <div class="error" *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched">
+    Password doesn't meet all requirements
+  </div>
+</div>
 
           <div class="error mb-2" *ngIf="errorMessage">
             {{ errorMessage }}

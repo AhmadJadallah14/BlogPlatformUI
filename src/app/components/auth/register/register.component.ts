@@ -21,7 +21,13 @@ export class RegisterComponent {
   loading = false;
   errorMessage = "";
   successMessage = "";
-
+  showPassword = false;
+  showPasswordInstructions = false;
+  hasSpecialChar(value: string): boolean {
+    if (!value) return false;
+    const specialChars = /[!@#$%^&*(),.?":{}|<>]/;
+    return specialChars.test(value);
+  }
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
@@ -54,5 +60,9 @@ export class RegisterComponent {
         },
       });
     }
+  }
+
+  toggleShowPassword() {
+    this.showPassword = !this.showPassword;
   }
 }
