@@ -1,5 +1,19 @@
 [phases.setup]
-nixPkgs = ["nodejs_20"]
+commands = [
+  # Install Node.js v20.19.0 from official source
+  "curl -fsSL https://nodejs.org/dist/v20.19.0/node-v20.19.0-linux-x64.tar.xz -o node.tar.xz",
+  "tar -xf node.tar.xz",
+  "mv node-v20.19.0-linux-x64 /opt/node",
+  "ln -s /opt/node/bin/node /usr/local/bin/node",
+  "ln -s /opt/node/bin/npm /usr/local/bin/npm",
+  "ln -s /opt/node/bin/npx /usr/local/bin/npx"
+]
+
+[phases.install]
+cmds = ["npm install"]
+
+[phases.build]
+cmds = ["npm run build"]
 
 [variables]
-NODE_VERSION = "20.11.1"
+NODE_VERSION = "20.19.0"
