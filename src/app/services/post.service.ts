@@ -34,14 +34,14 @@ export class PostService {
       formData.append("CoverImage", postData.coverImage);
     }
     return this.http.post<ApiResponse<number>>(
-      `${this.API_URL}/Posts/create-post`,
+      `${this.API_URL}/api/Posts/create-post`,
       formData
     );
   }
 
   getPostById(postId: number): Observable<ApiResponse<Post>> {
     return this.http.get<ApiResponse<Post>>(
-      `${this.API_URL}/posts/GetPostById/${postId}`
+      `${this.API_URL}/api/posts/GetPostById/${postId}`
     );
   }
   updatePost(postData: UpdatePostRequest): Observable<ApiResponse<boolean>> {
@@ -54,7 +54,7 @@ export class PostService {
       formData.append("CoverImageUrl", postData.coverImageUrl);
     }
     return this.http.put<ApiResponse<boolean>>(
-      `${this.API_URL}/Posts/update-post`,
+      `${this.API_URL}/api/Posts/update-post`,
       formData
     );
   }
@@ -66,7 +66,7 @@ export class PostService {
     const params = new HttpParams()
       .set("pageIndex", pageIndex.toString())
       .set("pageSize", pageSize.toString());
-    return this.http.get<PostsResponse>(`${this.API_URL}/Posts/my-posts`, {
+    return this.http.get<PostsResponse>(`${this.API_URL}/api/Posts/my-posts`, {
       params,
     });
   }
@@ -77,7 +77,7 @@ export class PostService {
   ): Observable<PostsResponse> {
     const body = { pageIndex, pageSize };
     return this.http.post<PostsResponse>(
-      `${this.API_URL}/Posts/GetAllPosts`,
+      `${this.API_URL}/api/Posts/GetAllPosts`,
       body
     );
   }
@@ -106,7 +106,7 @@ export class PostService {
 
   publishPost(postId: number): Observable<ApiResponse<boolean>> {
     return this.http.put<ApiResponse<boolean>>(
-      `${this.API_URL}/Posts/${postId}/publish`,
+      `${this.API_URL}/api/Posts/${postId}/publish`,
       {}
     );
   }
