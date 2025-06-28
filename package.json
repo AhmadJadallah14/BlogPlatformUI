@@ -4,7 +4,8 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build"
+    "build": "ng build",
+    "vercel-build": "npm install && npm run build -- --prod"
   },
   "dependencies": {
     "@angular/animations": "^20.0.0",
