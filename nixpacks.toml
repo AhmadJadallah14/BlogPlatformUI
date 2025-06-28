@@ -1,8 +1,0 @@
-[phases.setup]
-nixpkgsArchive = "https://github.com/NixOS/nixpkgs/archive/3fcb398dd37ec63f928d21b4e61e508a3c24b8bb.tar.gz"
-
-[phases.install]
-nixPkgs = ["nodejs_20"]
-
-[variables]
-NODE_VERSION = "20.11.1"
