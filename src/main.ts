@@ -42,7 +42,7 @@ import { authInterceptor } from "./app/interceptors/auth.interceptor";
   ],
 })
 export class App {
-  title = "BlogPlatform";
+  title = "Blog Platform";
 }
 
 bootstrapApplication(App, {

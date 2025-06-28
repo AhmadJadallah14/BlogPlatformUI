@@ -15,12 +15,14 @@ import { environment } from "../../environments/environment";
   providedIn: "root",
 })
 export class PostService {
-  private readonly API_URL = `${environment.apiUrl}/api`;
+  private readonly API_URL = `${environment.apiUrl}`;
 
   constructor(private http: HttpClient) {}
 
   getDashboardStats(): Observable<DashboardStats> {
-    return this.http.get<DashboardStats>(`${this.API_URL}/Dashboard/dashboard`);
+    return this.http.get<DashboardStats>(
+      `${this.API_URL}/api/Dashboard/dashboard`
+    );
   }
 
   createPost(postData: CreatePostRequest): Observable<ApiResponse<number>> {
@@ -87,13 +89,13 @@ export class PostService {
     const params = new HttpParams()
       .set("PageIndex", pageIndex.toString())
       .set("PageSize", pageSize.toString());
-    return this.http.get<PostsResponse>("https://localhost:7264/PublicPosts", {
+    return this.http.get<PostsResponse>(`${this.API_URL}/PublicPosts`, {
       params,
     });
   }
 
   getPostBySlug(slug: string): Observable<Post> {
-    return this.http.get<Post>(`https://localhost:7264/PublicPosts/${slug}`);
+    return this.http.get<Post>(`${this.API_URL}/PublicPosts/${slug}`);
   }
 
   deletePost(postId: number): Observable<ApiResponse<number>> {
