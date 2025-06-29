@@ -4,6 +4,8 @@ import {
   FormGroup,
   Validators,
   ReactiveFormsModule,
+  AbstractControl,
+  ValidationErrors,
 } from "@angular/forms";
 import { Router, RouterModule } from "@angular/router";
 import { CommonModule } from "@angular/common";
@@ -36,8 +38,24 @@ export class RegisterComponent {
     this.registerForm = this.fb.group({
       userName: ["", [Validators.required]],
       email: ["", [Validators.required, Validators.email]],
-      password: ["", [Validators.required, Validators.minLength(6)]],
+      password: [
+        "",
+        [
+          Validators.required,
+          Validators.minLength(6),
+          this.hasSpecialCharValidator,
+        ],
+      ],
     });
+  }
+  private hasSpecialCharValidator(
+    control: AbstractControl
+  ): ValidationErrors | null {
+    const value = control.value;
+    if (!value) return null;
+
+    const specialChars = /[!@#$%^&*(),.?":{}|<>]/;
+    return specialChars.test(value) ? null : { hasSpecialChar: true };
   }
 
   onSubmit() {
@@ -56,7 +74,15 @@ export class RegisterComponent {
         },
         error: (error) => {
           this.loading = false;
-          this.errorMessage = "Registration failed. Please try again.";
+          if (
+            error.error &&
+            Array.isArray(error.error.errors) &&
+            error.error.errors.length > 0
+          ) {
+            this.errorMessage = error.error.errors;
+          } else {
+            this.errorMessage = "Registration failed. Please try again.";
+          }
         },
       });
     }

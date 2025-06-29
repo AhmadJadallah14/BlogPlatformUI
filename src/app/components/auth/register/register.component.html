@@ -1,74 +1,88 @@
 <div class="auth-container">
-      <div class="auth-card card p-3">
-        <h2 class="text-center mb-3">Create Account</h2>
-        <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="auth-form">
-          <div class="form-group">
-            <label class="form-label">Username</label>
-            <input 
-              type="text" 
-              class="form-control" 
-              formControlName="userName"
-              [class.error]="registerForm.get('userName')?.invalid && registerForm.get('userName')?.touched"
-              placeholder="Enter your username"
-            >
-            <div class="error" *ngIf="registerForm.get('userName')?.invalid && registerForm.get('userName')?.touched">
-              Username is required
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label class="form-label">Email</label>
-            <input 
-              type="email" 
-              class="form-control" 
-              formControlName="email"
-              [class.error]="registerForm.get('email')?.invalid && registerForm.get('email')?.touched"
-            placeholder="Enter your email"
-            >
-            <div class="error" *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched">
-              Valid email is required
-            </div>
-          </div>
-          
-<div class="form-group">
-  <label class="form-label">Password</label>
-  <div class="password-input-container">
-    <input 
-      [type]="showPassword ? 'text' : 'password'" 
-      class="form-control password-input" 
-      formControlName="password"
-      [class.error]="registerForm.get('password')?.invalid && registerForm.get('password')?.touched"
-      placeholder="Enter your password"
-    >
-    <span class="password-toggle" (click)="toggleShowPassword()">
-      <i class="fa" [class.fa-eye]="!showPassword" [class.fa-eye-slash]="showPassword"></i>
-    </span>
-  </div>
-  
-  <div class="error" *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched">
-    Password doesn't meet all requirements
-  </div>
-</div>
-
-          <div class="error mb-2" *ngIf="errorMessage">
-            {{ errorMessage }}
-          </div>
-
-          <div class="success mb-2" *ngIf="successMessage">
-            {{ successMessage }}
-          </div>
-
-          <button 
-            type="submit" 
-            class="btn btn-primary w-100 mb-2"
-            [disabled]="registerForm.invalid || loading"
-          >
-            {{ loading ? 'Creating Account...' : 'Create Account' }}
-          </button>
-        </form>
-
-        <div class="text-center">
-          <p>Already have an account? <a routerLink="/login">Sign in</a></p>
+  <div class="auth-card card p-3">
+    <h2 class="text-center mb-3">Register</h2>
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="auth-form">
+      <div class="form-group">
+        <label class="form-label">Username</label>
+        <input 
+          type="text" 
+          class="form-control" 
+          formControlName="userName"
+          [class.error]="registerForm.get('userName')?.invalid && registerForm.get('userName')?.touched"
+          placeholder="Enter your username"
+        >
+        <div class="error" *ngIf="registerForm.get('userName')?.invalid && registerForm.get('userName')?.touched">
+          Username is required
         </div>
       </div>
+
+      <div class="form-group">
+        <label class="form-label">Email</label>
+        <input 
+          type="email" 
+          class="form-control" 
+          formControlName="email"
+          [class.error]="registerForm.get('email')?.invalid && registerForm.get('email')?.touched"
+          placeholder="Enter your email"
+        >
+        <div class="error" *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched">
+          Valid email is required
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label class="form-label">Password</label>
+        <div class="password-input-container">
+          <input 
+            [type]="showPassword ? 'text' : 'password'" 
+            class="form-control password-input" 
+            formControlName="password"
+            [class.error]="registerForm.get('password')?.invalid && registerForm.get('password')?.touched"
+            placeholder="Enter your password"
+            (focus)="showPasswordInstructions = true"
+            (blur)="showPasswordInstructions = registerForm.get('password')?.invalid || false"
+          >
+          <span class="password-toggle" (click)="toggleShowPassword()">
+            <i class="fa" [class.fa-eye]="!showPassword" [class.fa-eye-slash]="showPassword"></i>
+          </span>
+        </div>
+        
+        <div class="password-requirements" *ngIf="showPasswordInstructions">
+          <p>Password must contain:</p>
+          <ul>
+            <li [class.valid]="registerForm.get('password')?.value?.length >= 6">
+              At least 6 characters
+            </li>
+            <li [class.valid]="hasSpecialChar(registerForm.get('password')?.value)">
+              At least 1 special character 
+            </li>
+          </ul>
+        </div>
+        
+        <div class="error" *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched">
+          Password must meet all requirements
+        </div>
+      </div>
+
+      <div class="error mb-2" *ngIf="errorMessage">
+        {{ errorMessage }}
+      </div>
+
+      <div class="success mb-2" *ngIf="successMessage">
+        {{ successMessage }}
+      </div>
+
+      <button 
+        type="submit" 
+        class="btn btn-primary w-100 mb-2"
+        [disabled]="registerForm.invalid || loading"
+      >
+        {{ loading ? 'Creating Account...' : 'CREATE ACCOUNT' }}
+      </button>
+    </form>
+
+    <div class="text-center">
+      <p>Already have an account? <a routerLink="/login">Sign in</a></p>
     </div>
+  </div>
+</div>

@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { RouterModule } from "@angular/router";
+import { Router, RouterModule } from "@angular/router";
 import { PostService } from "../../../services/post.service";
 import { Post } from "../../../models/post.model";
 
@@ -19,8 +19,10 @@ export class HomeComponent implements OnInit {
   totalCount = 0;
   totalPages = 0;
 
-  constructor(private postService: PostService) {}
-
+  constructor(private postService: PostService, private router: Router) {}
+  navigateToPost(slug: string): void {
+    this.router.navigate(["/post", slug]);
+  }
   ngOnInit() {
     this.loadPosts();
   }

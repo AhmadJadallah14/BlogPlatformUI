@@ -1,13 +1,9 @@
 import { Component } from "@angular/core";
-import {
-  FormBuilder,
-  FormGroup,
-  Validators,
-  ReactiveFormsModule,
-} from "@angular/forms";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Router, RouterModule } from "@angular/router";
 import { CommonModule } from "@angular/common";
 import { AuthService } from "../../../services/auth.service";
+import { ReactiveFormsModule } from "@angular/forms";
 
 @Component({
   selector: "app-login",
@@ -20,6 +16,7 @@ export class LoginComponent {
   loginForm: FormGroup;
   loading = false;
   errorMessage = "";
+  showPassword = false;
 
   constructor(
     private fb: FormBuilder,
@@ -54,5 +51,9 @@ export class LoginComponent {
         },
       });
     }
+  }
+
+  toggleShowPassword() {
+    this.showPassword = !this.showPassword;
   }
 }

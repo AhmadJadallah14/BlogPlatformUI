@@ -3,6 +3,9 @@ import { CommonModule } from "@angular/common";
 import { RouterModule } from "@angular/router";
 import { PostService } from "../../../services/post.service";
 import { Post } from "../../../models/post.model";
+import { AuthService } from "../../../services/auth.service";
+import { Observable } from "rxjs";
+import { AuthResponse } from "../../../models/auth.model";
 
 @Component({
   selector: "app-post-list",
@@ -19,8 +22,14 @@ export class PostListComponent implements OnInit {
   totalCount = 0;
   totalPages = 0;
   actionLoading: { [key: number]: boolean } = {};
+  currentUser$: Observable<any>;
 
-  constructor(private postService: PostService) {}
+  constructor(
+    private postService: PostService,
+    private authService: AuthService
+  ) {
+    this.currentUser$ = this.authService.currentUser$;
+  }
 
   ngOnInit() {
     this.loadPosts();

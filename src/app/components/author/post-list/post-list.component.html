@@ -53,14 +53,16 @@
                 >
                   Edit
                 </button>
-                <button
-                  class="btn-sm btn-primary"
-                  *ngIf="!post.isPublished"
-                  (click)="publishPost(post.id)"
-                  [disabled]="actionLoading[post.id]"
-                >
-                  {{ actionLoading[post.id] ? "Publishing..." : "Publish" }}
-                </button>
+                <ng-container *ngIf="currentUser$ | async as user">
+      <button
+        class="btn-sm btn-primary"
+        *ngIf="!post.isPublished && user.roles.includes('Admin')"
+        (click)="publishPost(post.id)"
+        [disabled]="actionLoading[post.id]"
+      >
+        {{ actionLoading[post.id] ? "Publishing..." : "Publish" }}
+      </button>
+    </ng-container>
                 <button
                   class="btn-sm btn-danger"
                   (click)="deletePost(post.id)"
